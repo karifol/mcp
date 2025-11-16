@@ -3,10 +3,32 @@ Transform:
   - AWS::Serverless-2016-10-31
   - AWS::LanguageExtensions
 
+Parameters:
+  LambdaFunctionName:
+    Type: String
+    Default: McpLambdaFunction
+    Description: MCP
+
+  ApiGatewayName:
+    Type: String
+    Default: McpApiGateway
+    Description: MCP
+
 Resources:
+  McpApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Ref ApiGatewayName
+      StageName: Prod
+      Cors:
+        AllowMethods: "'*'"
+        AllowHeaders: "'*'"
+        AllowOrigin: "'*'"
+
   Function:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: !Ref LambdaFunctionName
       Architectures:
         - arm64
       Runtime: python3.13
@@ -21,6 +43,7 @@ Resources:
         apiReport:
           Type: Api
           Properties:
+            RestApiId: !Ref McpApi
             Path: /{proxy+}
             Method: ANY
       Environment:
@@ -31,7 +54,7 @@ Resources:
 Outputs:
   Api:
     Description: "API Gateway endpoint URL for Prod stage for Function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/mcp"
+    Value: !Sub "https://${McpApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/mcp"
   Function:
     Description: "Lambda Function ARN"
     Value: !GetAtt Function.Arn
