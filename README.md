@@ -51,17 +51,19 @@ sam deploy --guided
 
 ```
 .
-├── docs/                   # MkDocs ドキュメント (Markdown)
+├── docs/                   # ドキュメント
+│   ├── mkdocs.yml         # MkDocs設定
+│   ├── requirements.txt   # ドキュメント用パッケージ
 │   ├── index.md
 │   ├── setup/
 │   ├── usage/
+│   ├── stylesheets/
 │   └── troubleshooting.md
-├── src/
+├── src/                    # アプリケーション
 │   ├── app/
 │   │   ├── main.py        # FastMCPアプリケーション
 │   │   └── tools/         # ツール定義
 │   └── run.sh             # Lambdaエントリポイント
-├── mkdocs.yml             # MkDocs設定
 └── template.yaml          # SAM テンプレート
 ```
 
@@ -75,7 +77,8 @@ sam deploy --guided
 ### ローカルプレビュー
 
 ```bash
-pip install -r requirements-docs.txt
+cd docs
+pip install -r requirements.txt
 mkdocs serve
 ```
 
@@ -84,6 +87,7 @@ mkdocs serve
 ### ドキュメントのビルド
 
 ```bash
+cd docs
 mkdocs build
 ```
 

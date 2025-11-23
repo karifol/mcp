@@ -6,6 +6,9 @@ site_url: https://karifol.github.io/mcp/
 repo_name: karifol/mcp
 repo_url: https://github.com/karifol/mcp
 
+docs_dir: .
+site_dir: ../site
+
 theme:
   name: material
   language: ja
