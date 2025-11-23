@@ -5,7 +5,7 @@ title: 使い方
 
 # 使い方
 
-MCPサーバーの使い方について説明します。
+MCP サーバーの使い方について説明します。
 
 ## 📖 使い方ガイド
 
@@ -14,25 +14,25 @@ MCPサーバーの使い方について説明します。
 
 ## 基本的な使い方
 
-### Claude Desktopでの利用
+### Claude Desktop での利用
 
-MCPサーバーに接続後、自然言語でツールを呼び出せます:
+MCP サーバーに接続後、自然言語でツールを呼び出せます:
 
 ```
 5と10を足してください
 ```
 
-Claudeが自動的に `add` ツールを使用して計算します。
+Claude が自動的に `add` ツールを使用して計算します。
 
-### Clineでの利用
+### Cline での利用
 
-VS CodeのClineでも同様に使用できます。Clineのチャットで:
+VS Code の Cline でも同様に使用できます。Cline のチャットで:
 
 ```
 12と8を掛けてください
 ```
 
-### HTTP APIとして利用
+### HTTP API として利用
 
 ```bash
 curl -X POST https://YOUR-ENDPOINT/mcp \
