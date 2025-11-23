@@ -1,0 +1,108 @@
+/* カスタムスタイル - ダークモード最適化 */
+
+:root {
+  --md-primary-fg-color: #7c3aed;
+  --md-accent-fg-color: #a78bfa;
+}
+
+/* ダークモードでのカスタムカラー */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #8b5cf6;
+  --md-accent-fg-color: #a78bfa;
+  --md-default-bg-color: #0f172a;
+  --md-default-fg-color: #e2e8f0;
+  --md-code-bg-color: #1e293b;
+  --md-code-fg-color: #e2e8f0;
+}
+
+/* ヘッダーのグラデーション */
+.md-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* コードブロックのスタイル */
+.highlight pre {
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+/* アドモニションのスタイル改善 */
+.admonition {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-md-color-scheme="slate"] .admonition {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* カードスタイルの追加 */
+.md-typeset .card {
+  background: var(--md-code-bg-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.md-typeset .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* テーブルのスタイル改善 */
+.md-typeset table:not([class]) {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* リンクのホバー効果 */
+.md-typeset a {
+  transition: color 0.2s;
+}
+
+/* ナビゲーションタブのスタイル */
+.md-tabs {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* スクロールバーのカスタマイズ（Webkit系ブラウザ） */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--md-default-bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--md-primary-fg-color);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--md-accent-fg-color);
+}
+
+/* 検索結果のハイライト */
+.md-search-result__item {
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+/* コードコピーボタンのスタイル */
+.md-clipboard {
+  transition: opacity 0.2s;
+}
+
+/* フッターのグラデーション */
+.md-footer {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* エモジのサイズ調整 */
+.md-typeset .twemoji {
+  vertical-align: text-bottom;
+}

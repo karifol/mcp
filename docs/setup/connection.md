@@ -4,17 +4,13 @@ MCP クライアントからサーバーに接続する方法を説明します�
 
 ## 前提条件
 
-- MCP サーバーがデプロイ済みであること
-- API Gateway のエンドポイント URL を取得済みであること
+- MCP サーバーのエンドポイント URL
+- MCP クライアント (Claude Desktop または Cline)
 
-!!! info "エンドポイント URL の確認"
-デプロイ時の出力、または以下のコマンドで確認できます:
-`bash
-    aws cloudformation describe-stacks \
-      --stack-name mcp-server \
-      --query "Stacks[0].Outputs[?OutputKey=='Api'].OutputValue" \
-      --output text
-    `
+!!! info "エンドポイント URL の取得"
+エンドポイント URL はサーバー管理者から提供されます。
+
+    形式: `https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp`
 
 ## Claude Desktop での接続
 

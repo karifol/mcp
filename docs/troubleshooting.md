@@ -83,123 +83,6 @@ MCP サーバーの使用中に発生する可能性のある問題と解決方�
 
 ---
 
-## デプロイの問題
-
-### sam build エラー
-
-#### 症状
-
-```
-Build Failed
-Error: PythonPipBuilder:ResolveDependencies - ...
-```
-
-#### 解決策
-
-1. **Python バージョンの確認**
-
-   ```bash
-   python --version  # 3.13以上が必要
-   ```
-
-2. **依存関係の問題**
-
-   ```bash
-   # requirements.txtを確認
-   cat src/requirements.txt
-
-   # ローカルでインストールテスト
-   pip install -r src/requirements.txt
-   ```
-
-3. **キャッシュのクリア**
-   ```bash
-   rm -rf .aws-sam/
-   sam build --use-container
-   ```
-
----
-
-### sam deploy エラー
-
-#### 症状
-
-```
-Error: Failed to create/update stack
-```
-
-#### 解決策
-
-1. **AWS 認証情報の確認**
-
-   ```bash
-   aws sts get-caller-identity
-   ```
-
-2. **IAM 権限の確認**
-   必要な権限:
-
-   - CloudFormation
-   - Lambda
-   - API Gateway
-   - IAM
-   - S3
-
-3. **スタック名の重複**
-
-   ```bash
-   # 既存のスタックを確認
-   aws cloudformation list-stacks
-
-   # 削除が必要な場合
-   aws cloudformation delete-stack --stack-name mcp-server
-   ```
-
-4. **リージョンの確認**
-   ```bash
-   # samconfig.tomlを確認
-   cat samconfig.toml
-   ```
-
----
-
-### デプロイは成功するがエンドポイントが動作しない
-
-#### 症状
-
-- デプロイは成功
-- curl でアクセスするとエラー
-
-#### 解決策
-
-1. **CloudWatch Logs の確認**
-
-   ```bash
-   # 最新のログを確認
-   aws logs tail /aws/lambda/McpLambdaFunction --follow
-   ```
-
-2. **Lambda 関数のテスト**
-
-   - AWS Console で Lambda 関数を開く
-   - テストイベントを作成して実行
-   - エラーメッセージを確認
-
-3. **環境変数の確認**
-
-   ```bash
-   aws lambda get-function-configuration \
-     --function-name McpLambdaFunction \
-     --query Environment
-   ```
-
-   必要な環境変数:
-
-   - `AWS_LAMBDA_EXEC_WRAPPER`: `/opt/bootstrap`
-   - `PORT`: `8080`
-
----
-
 ## ツールの問題
 
 ### ツールが表示されない
@@ -211,35 +94,11 @@ Error: Failed to create/update stack
 
 #### 解決策
 
-1. **ファイルの配置を確認**
+サーバー管理者に連絡して、ツールの設定を確認してもらってください。以下の情報を伝えると役立ちます:
 
-   ```bash
-   ls -la src/app/tools/
-   ```
-
-   - `__init__.py` が存在するか
-   - ツールファイルが `.py` 拡張子か
-
-2. **インポートエラーのチェック**
-
-   ```python
-   # ツールファイルの先頭行を確認
-   from app.main import mcp  # 正しい
-   # import mcp  # 間違い
-   ```
-
-3. **デコレータの確認**
-
-   ```python
-   @mcp.tool()  # 正しい
-   # @tool()  # 間違い
-   ```
-
-4. **再デプロイ**
-   ```bash
-   sam build
-   sam deploy
-   ```
+- 表示されないツール名
+- エラーメッセージ（あれば）
+- いつから表示されなくなったか
 
 ---
 
