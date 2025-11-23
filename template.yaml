@@ -38,6 +38,8 @@ Resources:
     Properties:
       Name: !Ref ApiGatewayName
       StageName: Prod
+      Auth:
+        ApiKeyRequired: true
       Cors:
         AllowMethods: "'*'"
         AllowHeaders: "'*'"
@@ -46,6 +48,51 @@ Resources:
         Administrator: !Ref AdministratorTag
         Project: !Ref ProjectTag
         ManagedBy: !Ref ManagedByTag
+
+  # API Key
+  McpApiKey:
+    Type: AWS::ApiGateway::ApiKey
+    DependsOn:
+      - McpApiProdStage
+    Properties:
+      Name: McpApiKey
+      Enabled: true
+      StageKeys:
+        - RestApiId: !Ref McpApi
+          StageName: Prod
+      Tags:
+        - Key: Administrator
+          Value: !Ref AdministratorTag
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: ManagedBy
+          Value: !Ref ManagedByTag
+
+  # Usage Plan
+  McpUsagePlan:
+    Type: AWS::ApiGateway::UsagePlan
+    DependsOn:
+      - McpApiProdStage
+    Properties:
+      UsagePlanName: McpUsagePlan
+      ApiStages:
+        - ApiId: !Ref McpApi
+          Stage: Prod
+      Tags:
+        - Key: Administrator
+          Value: !Ref AdministratorTag
+        - Key: Project
+          Value: !Ref ProjectTag
+        - Key: ManagedBy
+          Value: !Ref ManagedByTag
+
+  # Usage Plan Key (API KeyとUsage Planの関連付け)
+  McpUsagePlanKey:
+    Type: AWS::ApiGateway::UsagePlanKey
+    Properties:
+      KeyId: !Ref McpApiKey
+      KeyType: API_KEY
+      UsagePlanId: !Ref McpUsagePlan
 
   # Lambda Function
   Function:
@@ -82,6 +129,9 @@ Outputs:
   Api:
     Description: "API Gateway endpoint URL for Prod stage for Function"
     Value: !Sub "https://${McpApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/mcp"
+  ApiKey:
+    Description: "API Key for accessing the API"
+    Value: !Ref McpApiKey
   Function:
     Description: "Lambda Function ARN"
     Value: !GetAtt Function.Arn

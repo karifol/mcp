@@ -5,12 +5,18 @@ MCP クライアントからサーバーに接続する方法を説明します�
 ## 前提条件
 
 - MCP サーバーのエンドポイント URL
+- API キー
 - MCP クライアント (Claude Desktop または Cline)
 
-!!! info "エンドポイント URL の取得"
-エンドポイント URL はサーバー管理者から提供されます。
+!!! info "エンドポイント URL と API キーの取得"
+エンドポイント URL と API キーはサーバー管理者から提供されます。
 
-    形式: `https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp`
+    - URL 形式: `https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp`
+    - API キーは AWS コンソールまたは以下のコマンドで取得できます:
+
+    ```bash
+    aws apigateway get-api-key --api-key <API-KEY-ID> --include-value
+    ```
 
 ## Claude Desktop での接続
 
@@ -44,16 +50,26 @@ Claude Desktop の設定ファイルを編集します:
 {
   "mcpServers": {
     "mcp-lambda": {
-      "url": "https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp"
+      "url": "https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp",
+      "headers": {
+        "x-api-key": "YOUR-API-KEY"
+      }
     }
   }
 }
 ```
 
-!!! warning "URL の置き換え"
-`YOUR-API-ID` と `YOUR-REGION` を実際の値に置き換えてください。
+!!! warning "URL と API キーの置き換え" - `YOUR-API-ID` と `YOUR-REGION` を実際の値に置き換えてください - `YOUR-API-KEY` を管理者から提供された API キーに置き換えてください
 
-    例: `https://abc123def4.execute-api.ap-northeast-1.amazonaws.com/Prod/mcp`
+    例:
+    ```json
+    {
+      "url": "https://abc123def4.execute-api.ap-northeast-1.amazonaws.com/Prod/mcp",
+      "headers": {
+        "x-api-key": "a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6"
+      }
+    }
+    ```
 
 ### 複数の MCP サーバーを登録する場合
 
@@ -61,10 +77,16 @@ Claude Desktop の設定ファイルを編集します:
 {
   "mcpServers": {
     "mcp-lambda": {
-      "url": "https://your-api-1.execute-api.ap-northeast-1.amazonaws.com/Prod/mcp"
+      "url": "https://your-api-1.execute-api.ap-northeast-1.amazonaws.com/Prod/mcp",
+      "headers": {
+        "x-api-key": "YOUR-API-KEY-1"
+      }
     },
     "another-mcp": {
-      "url": "https://your-api-2.execute-api.us-east-1.amazonaws.com/Prod/mcp"
+      "url": "https://your-api-2.execute-api.us-east-1.amazonaws.com/Prod/mcp",
+      "headers": {
+        "x-api-key": "YOUR-API-KEY-2"
+      }
     }
   }
 }
@@ -111,7 +133,10 @@ Claude Desktop を開き、以下のように確認します:
 {
   "name": "mcp-lambda",
   "type": "http",
-  "url": "https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp"
+  "url": "https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp",
+  "headers": {
+    "x-api-key": "YOUR-API-KEY"
+  }
 }
 ```
 
@@ -135,6 +160,7 @@ HTTP POST リクエストで MCP Protocol に従ってリクエストを送信�
 ```bash
 curl -X POST https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp \
   -H "Content-Type: application/json" \
+  -H "x-api-key: YOUR-API-KEY" \
   -d '{
     "jsonrpc": "2.0",
     "method": "tools/list",
@@ -148,9 +174,13 @@ curl -X POST https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp 
 import requests
 
 url = "https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp"
+headers = {
+    "Content-Type": "application/json",
+    "x-api-key": "YOUR-API-KEY"
+}
 
 # ツールリストの取得
-response = requests.post(url, json={
+response = requests.post(url, headers=headers, json={
     "jsonrpc": "2.0",
     "method": "tools/list",
     "id": 1
@@ -158,7 +188,7 @@ response = requests.post(url, json={
 print(response.json())
 
 # ツールの呼び出し
-response = requests.post(url, json={
+response = requests.post(url, headers=headers, json={
     "jsonrpc": "2.0",
     "method": "tools/call",
     "params": {
@@ -173,31 +203,23 @@ response = requests.post(url, json={
 print(response.json())
 ```
 
-## 認証の追加 (オプション)
+## トラブルシューティング
 
-本番環境では認証を追加することを推奨します:
+### 403 Forbidden エラー
 
-### API Key の設定
+API キーが正しく設定されていない可能性があります:
 
-1. AWS Console で API Gateway を開く
-2. 該当の API を選択
-3. "API Keys" から新しいキーを作成
-4. "Usage Plans" でキーを関連付け
+1. API キーが正しいか確認
+2. ヘッダー名が `x-api-key` であることを確認
+3. API キーの有効期限を確認
 
-### クライアント設定
+### 接続できない
 
-```json
-{
-  "mcpServers": {
-    "mcp-lambda": {
-      "url": "https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp",
-      "headers": {
-        "x-api-key": "YOUR-API-KEY"
-      }
-    }
-  }
-}
-```
+1. エンドポイント URL が正しいか確認
+2. ネットワーク接続を確認
+3. Claude Desktop / Cline を再起動
+
+詳細は[トラブルシューティング](../troubleshooting.md)を参照してください。
 
 ## 次のステップ
 

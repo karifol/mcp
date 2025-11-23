@@ -26,11 +26,20 @@ Model Context Protocol (MCP) サーバー - AWS Lambda 上で動作する HTTP M
 {
   "mcpServers": {
     "mcp-lambda": {
-      "url": "https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp"
+      "url": "https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp",
+      "headers": {
+        "x-api-key": "YOUR-API-KEY"
+      }
     }
   }
 }
 ```
+
+!!! info "API キーの取得"
+デプロイ後、以下のコマンドで API キーを取得できます:
+`` bash
+    aws apigateway get-api-key --api-key $(aws cloudformation describe-stacks --stack-name <STACK-NAME> --query 'Stacks[0].Outputs[?OutputKey==`ApiKey`].OutputValue' --output text) --include-value
+     ``
 
 ### デプロイ
 
