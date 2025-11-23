@@ -48,10 +48,7 @@ MCP サーバーは、AWS Lambda 上で動作する HTTP MCP サーバーです�
 1. [インストール](setup/installation.md) - サーバーのデプロイ方法
 2. [接続方法](setup/connection.md) - クライアントからの接続設定
 3. [使用例](usage/examples.md) - 実際の使用例を確認
-
-## 🤝 コントリビューション
-
-新しいツールの追加方法については、[カスタムツールの追加](development/custom-tools.md)を参照してください。
+4. [トラブルシューティング](troubleshooting.md) - 問題が発生した場合
 
 ## 📄 ライセンス
 

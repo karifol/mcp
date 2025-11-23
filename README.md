@@ -55,7 +55,6 @@ sam deploy --guided
 │   ├── index.md
 │   ├── setup/
 │   ├── usage/
-│   ├── development/
 │   └── troubleshooting.md
 ├── src/
 │   ├── app/
@@ -65,23 +64,6 @@ sam deploy --guided
 ├── mkdocs.yml             # MkDocs設定
 └── template.yaml          # SAM テンプレート
 ```
-
-## 🔧 カスタムツールの追加
-
-`src/app/tools/` に新しい Python ファイルを追加してツールを定義:
-
-```python
-from app.main import mcp
-
-@mcp.tool()
-def your_tool(param: str) -> str:
-    """
-    ツールの説明
-    """
-    return f"Result: {param}"
-```
-
-ツールは自動的に登録されます。
 
 ## 📖 ドキュメント
 

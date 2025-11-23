@@ -314,17 +314,11 @@ Error: Failed to create/update stack
 
 2. **タイムアウトの延長**
 
-   ```yaml
-   Function:
-     Type: AWS::Serverless::Function
-     Properties:
-       Timeout: 60 # 30 から延長
-   ```
+   サーバー管理者に連絡して、タイムアウト設定の延長を依頼してください。
 
-3. **コードの最適化**
-   - 不要な処理を削除
-   - 外部 API 呼び出しの最適化
-   - キャッシュの活用
+3. **処理の最適化**
+
+   大量のデータを扱う場合や複雑な処理を行う場合は、処理を分割するか、サーバー管理者に相談してください。
 
 ---
 
@@ -337,24 +331,7 @@ Error: Failed to create/update stack
 
 #### 解決策
 
-1. **Provisioned Concurrency の設定**
-
-   ```yaml
-   Function:
-     Type: AWS::Serverless::Function
-     Properties:
-       AutoPublishAlias: live
-       ProvisionedConcurrencyConfig:
-         ProvisionedConcurrentExecutions: 1
-   ```
-
-2. **定期的なウォームアップ**
-   ```yaml
-   WarmUpEvent:
-     Type: Schedule
-     Properties:
-       Schedule: rate(5 minutes)
-   ```
+AWS Lambda 特有の現象です。初回実行やしばらく使われていない場合、数秒かかることがあります。これは正常な動作です。頻繁に使用する場合は、サーバー管理者に Provisioned Concurrency の設定を依頼してください。
 
 ---
 
@@ -372,40 +349,9 @@ Error: Failed to create/update stack
 
 ## デバッグ方法
 
-### ローカルでのテスト
-
-```bash
-# ローカルでLambdaを起動
-sam local start-api
-
-# 別のターミナルでテスト
-curl -X POST http://localhost:3000/mcp \
-  -H "Content-Type: application/json" \
-  -d '{
-    "jsonrpc": "2.0",
-    "method": "tools/list",
-    "id": 1
-  }'
-```
-
-### ログの有効化
-
-```python
-# ツールファイルにログを追加
-import logging
-
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
-@mcp.tool()
-def my_tool(param: str) -> str:
-    logger.info(f"my_tool called with param: {param}")
-    result = process(param)
-    logger.info(f"my_tool result: {result}")
-    return result
-```
-
 ### CloudWatch Logs の確認
+
+サーバー管理者は以下のコマンドでログを確認できます:
 
 ```bash
 # リアルタイムでログを監視
@@ -416,6 +362,8 @@ aws logs tail /aws/lambda/McpLambdaFunction \
   --since 1h \
   --filter-pattern "ERROR"
 ```
+
+エラーが発生した場合は、エラーメッセージとタイムスタンプをサーバー管理者に伝えてください。
 
 ---
 
@@ -440,38 +388,11 @@ A: はい、Claude Desktop の設定ファイルに複数のサーバーを登�
 
 ### Q: 既存のツールを削除するには?
 
-A: ツールファイルを削除して再デプロイ:
-
-```bash
-rm src/app/tools/old_tool.py
-sam build
-sam deploy
-```
+A: サーバー管理者に連絡して、ツールの削除とサーバーの再デプロイを依頼してください。
 
 ### Q: ツールの実行結果をキャッシュできますか?
 
-A: はい、DynamoDB や ElastiCache を使用できます:
-
-```python
-import boto3
-
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('cache-table')
-
-@mcp.tool()
-def cached_tool(key: str) -> str:
-    # キャッシュチェック
-    response = table.get_item(Key={'id': key})
-    if 'Item' in response:
-        return response['Item']['value']
-
-    # 処理実行
-    result = expensive_operation(key)
-
-    # キャッシュ保存
-    table.put_item(Item={'id': key, 'value': result})
-    return result
-```
+A: サーバー側でキャッシュ機能を実装することは可能です。詳細はサーバー管理者にお問い合わせください。
 
 ### Q: 認証を追加できますか?
 

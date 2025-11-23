@@ -305,5 +305,4 @@ if result:
 
 ## 次のステップ
 
-- [カスタムツールの追加](../development/custom-tools.md) - 独自のツールを作成
 - [トラブルシューティング](../troubleshooting.md) - 問題が発生した場合
