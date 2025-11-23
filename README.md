@@ -2,6 +2,10 @@
 
 Model Context Protocol (MCP) サーバー - AWS Lambda 上で動作する HTTP MCP サーバー
 
+## 🏗️ アーキテクチャ
+
+![Architecture](architecture.png)
+
 ## 📚 ドキュメント
 
 詳細なドキュメントは GitHub Pages で公開しています:
