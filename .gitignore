@@ -2,9 +2,6 @@
 .aws-sam/
 samconfig.toml
 
-# MkDocs
-site/
-
 # Python
 __pycache__/
 *.py[cod]
@@ -22,15 +19,3 @@ ENV/
 *.swp
 *.swo
 *~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-
-# Jekyll (not used)
-_site/
-.jekyll-cache/
-Gemfile.lock
