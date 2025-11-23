@@ -32,6 +32,7 @@ Parameters:
     Description: ManagedBy tag value
 
 Resources:
+  # API Gateway
   McpApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -46,6 +47,7 @@ Resources:
         Project: !Ref ProjectTag
         ManagedBy: !Ref ManagedByTag
 
+  # Lambda Function
   Function:
     Type: AWS::Serverless::Function
     Properties:
