@@ -25,11 +25,14 @@ Model Context Protocol (MCP) サーバー - AWS Lambda 上で動作する HTTP M
 ```json
 {
   "mcpServers": {
-    "mcp-lambda": {
-      "url": "https://YOUR-API-ID.execute-api.YOUR-REGION.amazonaws.com/Prod/mcp",
-      "headers": {
-        "x-api-key": "YOUR-API-KEY"
-      }
+    "mcp": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "<YOUR-API-ENDPOINT>",
+        "--header",
+        "x-api-key:<API-KEY>"
+      ]
     }
   }
 }
@@ -50,11 +53,7 @@ sam deploy --guided
 
 ## 🛠️ 利用可能なツール
 
-- **add**: 2 つの整数を加算
-- **multiply**: 2 つの整数を乗算
-- **get_weather_forecast**: 天気予報を取得
-
-詳細は[ドキュメント](https://karifol.github.io/mcp/)を参照してください。
+[ドキュメント](https://karifol.github.io/mcp/)を参照してください。
 
 ## 📁 プロジェクト構造
 
@@ -82,24 +81,3 @@ sam deploy --guided
 
 完全なドキュメントは GitHub Pages で公開しています:
 **https://karifol.github.io/mcp/**
-
-### ローカルプレビュー
-
-```bash
-pip install -r docs/requirements.txt
-mkdocs serve
-```
-
-ブラウザで http://localhost:8000 を開いてプレビューできます。
-
-### ドキュメントのビルド
-
-```bash
-mkdocs build
-```
-
-静的 HTML ファイルが `site/` ディレクトリに生成されます。
-
-## ライセンス
-
-MIT
