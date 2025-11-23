@@ -1,4 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
+Description: MCP (Model Context Protocol) Server - Lambda function with API Gateway for MCP communication
 Transform:
   - AWS::Serverless-2016-10-31
   - AWS::LanguageExtensions
@@ -14,6 +15,22 @@ Parameters:
     Default: McpApiGateway
     Description: MCP
 
+  # Tags
+  AdministratorTag:
+    Type: String
+    Default: mcp-admin
+    Description: Administrator tag value
+
+  ProjectTag:
+    Type: String
+    Default: MCP
+    Description: Project tag value
+
+  ManagedByTag:
+    Type: String
+    Default: SAM
+    Description: ManagedBy tag value
+
 Resources:
   McpApi:
     Type: AWS::Serverless::Api
@@ -24,6 +41,10 @@ Resources:
         AllowMethods: "'*'"
         AllowHeaders: "'*'"
         AllowOrigin: "'*'"
+      Tags:
+        Administrator: !Ref AdministratorTag
+        Project: !Ref ProjectTag
+        ManagedBy: !Ref ManagedByTag
 
   Function:
     Type: AWS::Serverless::Function
@@ -34,6 +55,10 @@ Resources:
       Runtime: python3.13
       Timeout: 30
       AutoPublishAlias: live
+      Tags:
+        Administrator: !Ref AdministratorTag
+        Project: !Ref ProjectTag
+        ManagedBy: !Ref ManagedByTag
       Layers:
         - !Sub arn:aws:lambda:${AWS::Region}:753240598075:layer:LambdaAdapterLayerArm64:18
       MemorySize: 1024
