@@ -1,0 +1,68 @@
+site_name: MCP Server Documentation
+site_description: Model Context Protocol サーバー - 利用者向けドキュメント
+site_author: karifol
+site_url: https://karifol.github.io/mcp/
+
+repo_name: karifol/mcp
+repo_url: https://github.com/karifol/mcp
+
+theme:
+  name: material
+  language: ja
+  palette:
+    # Light mode
+    - scheme: default
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: ダークモードに切り替え
+    # Dark mode
+    - scheme: slate
+      primary: blue
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: ライトモードに切り替え
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - ホーム: index.md
+  - セットアップ:
+      - インストール: setup/installation.md
+      - 接続方法: setup/connection.md
+  - 使い方:
+      - 利用可能なツール: usage/tools.md
+      - 使用例: usage/examples.md
+  - 開発:
+      - カスタムツールの追加: development/custom-tools.md
+      - アーキテクチャ: development/architecture.md
+  - トラブルシューティング: troubleshooting.md
+
+plugins:
+  - search:
+      lang: ja

@@ -80,7 +80,15 @@ def your_tool(param: str) -> str:
 ## 📖 詳細情報
 
 - [完全なドキュメント](https://karifol.github.io/mcp/)
-- [GitHub Pages セットアップガイド](docs/SETUP.md)
+
+## ローカルでドキュメントをプレビュー
+
+```bash
+pip install -r requirements-docs.txt
+mkdocs serve
+```
+
+ブラウザで http://localhost:8000 を開いてプレビューできます。
 
 ## ライセンス
 
