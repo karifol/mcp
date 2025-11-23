@@ -1,0 +1,49 @@
+title: MCP Server Documentation
+description: Model Context Protocol サーバー - 利用者向けドキュメント
+theme: jekyll-theme-cayman
+baseurl: "/mcp"
+url: "https://karifol.github.io"
+
+# GitHub repository
+repository: karifol/mcp
+
+# Build settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Plugins
+plugins:
+  - jekyll-relative-links
+  - jekyll-optional-front-matter
+  - jekyll-readme-index
+  - jekyll-titles-from-headings
+  - jekyll-seo-tag
+
+# Navigation
+navigation:
+  - title: ホーム
+    url: /
+  - title: セットアップ
+    url: /setup/
+  - title: 使い方
+    url: /usage/
+  - title: 開発
+    url: /development/
+  - title: トラブルシューティング
+    url: /troubleshooting/
+
+# Exclude from processing
+exclude:
+  - vendor
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - README.md
+  - src/
+  - template.yaml
+  - samconfig.toml
+  - mkdocs.yml
+  - requirements-docs.txt
+  - .aws-sam/
