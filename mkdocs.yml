@@ -10,34 +10,64 @@ theme:
   name: material
   language: ja
   palette:
-    # Light mode
-    - scheme: default
-      primary: blue
-      accent: indigo
-      toggle:
-        icon: material/brightness-7
-        name: ダークモードに切り替え
-    # Dark mode
+    # Dark mode (デフォルト)
     - scheme: slate
-      primary: blue
-      accent: indigo
+      primary: deep purple
+      accent: purple
       toggle:
         icon: material/brightness-4
         name: ライトモードに切り替え
+    # Light mode
+    - scheme: default
+      primary: deep purple
+      accent: purple
+      toggle:
+        icon: material/brightness-7
+        name: ダークモードに切り替え
+  font:
+    text: Roboto
+    code: Roboto Mono
   features:
     - navigation.tabs
     - navigation.sections
     - navigation.top
     - navigation.footer
+    - navigation.expand
+    - navigation.indexes
+    - toc.follow
+    - toc.integrate
     - search.suggest
     - search.highlight
+    - search.share
     - content.code.copy
     - content.code.annotate
+    - content.tabs.link
+  icon:
+    repo: fontawesome/brands/github
+    admonition:
+      note: octicons/tag-16
+      abstract: octicons/checklist-16
+      info: octicons/info-16
+      tip: octicons/squirrel-16
+      success: octicons/check-16
+      question: octicons/question-16
+      warning: octicons/alert-16
+      failure: octicons/x-circle-16
+      danger: octicons/zap-16
+      bug: octicons/bug-16
+      example: octicons/beaker-16
+      quote: octicons/quote-16
 
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.superfences
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.tabbed:
@@ -49,12 +79,20 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - def_list
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - tables
+  - footnotes
 
 nav:
   - ホーム: index.md
-  - セットアップ:
-      - インストール: setup/installation.md
-      - 接続方法: setup/connection.md
+  - 接続方法: setup/connection.md
   - 使い方:
       - 利用可能なツール: usage/tools.md
       - 使用例: usage/examples.md
@@ -62,4 +100,17 @@ nav:
 
 plugins:
   - search:
-      lang: ja
+      lang:
+        - ja
+        - en
+  - tags
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/karifol/mcp
+      name: GitHub
+  generator: false
+
+extra_css:
+  - stylesheets/extra.css
