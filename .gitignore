@@ -1,3 +1,36 @@
 # AWS SAM CLI
 .aws-sam/
 samconfig.toml
+
+# MkDocs
+site/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Jekyll (not used)
+_site/
+.jekyll-cache/
+Gemfile.lock

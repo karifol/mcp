@@ -51,13 +51,19 @@ sam deploy --guided
 
 ```
 .
-├── docs/               # GitHub Pages ドキュメント
+├── docs/                   # MkDocs ドキュメント (Markdown)
+│   ├── index.md
+│   ├── setup/
+│   ├── usage/
+│   ├── development/
+│   └── troubleshooting.md
 ├── src/
 │   ├── app/
-│   │   ├── main.py    # FastMCPアプリケーション
-│   │   └── tools/     # ツール定義
-│   └── run.sh         # Lambdaエントリポイント
-└── template.yaml      # SAM テンプレート
+│   │   ├── main.py        # FastMCPアプリケーション
+│   │   └── tools/         # ツール定義
+│   └── run.sh             # Lambdaエントリポイント
+├── mkdocs.yml             # MkDocs設定
+└── template.yaml          # SAM テンプレート
 ```
 
 ## 🔧 カスタムツールの追加
@@ -77,11 +83,14 @@ def your_tool(param: str) -> str:
 
 ツールは自動的に登録されます。
 
-## 📖 詳細情報
+## 📖 ドキュメント
 
-- [完全なドキュメント](https://karifol.github.io/mcp/)
+### オンラインドキュメント
 
-## ローカルでドキュメントをプレビュー
+完全なドキュメントは GitHub Pages で公開しています:
+**https://karifol.github.io/mcp/**
+
+### ローカルプレビュー
 
 ```bash
 pip install -r requirements-docs.txt
@@ -89,6 +98,14 @@ mkdocs serve
 ```
 
 ブラウザで http://localhost:8000 を開いてプレビューできます。
+
+### ドキュメントのビルド
+
+```bash
+mkdocs build
+```
+
+静的 HTML ファイルが `site/` ディレクトリに生成されます。
 
 ## ライセンス
 
